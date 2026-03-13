@@ -3,10 +3,26 @@ import { MEALS } from "../data/dummy-data";
 import MealDetails from "../components/MealDetails";
 import Subtitle from "../components/MealDetail/Subtitle";
 import List from "../components/MealDetail/List";
+import { use, useLayoutEffect } from "react";
+import IconButton from "../components/IconButton";
 
-function MealDetailScreen({ route }) {
+function MealDetailScreen({ route, navigation }) {
     const { mealId } = route.params;
     const selectedMeal = MEALS.find((meal) => meal.id === mealId);
+
+    function headerButtonPressHandler() {
+        alert('Button tapped!');
+    }
+
+    useLayoutEffect(() => {
+        navigation.setOptions({
+            headerRight: () => {
+                return <IconButton icon="heart" onPress={headerButtonPressHandler} color="white" />;
+              },
+              //title: selectedMeal.title,
+        });
+    }, [ navigation, headerButtonPressHandler]);
+
     return (
         <ScrollView style={styles.rootContainer}>
             <Image source={{ uri: selectedMeal.imageUrl }} style={styles.image} />
